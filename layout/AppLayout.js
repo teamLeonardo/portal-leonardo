@@ -7,8 +7,9 @@ import { useRouter } from "next/router";
 import { ISSERVER } from "utils/windows";
 import Image from "next/image";
 import Head from "next/head";
+import { Profile } from "components/profile/profile";
 
-export const Layout = ({ children }) => {
+export const Layout = ({ children, dataUser }) => {
     const { theme, setTheme } = useTheme();
     const { push, pathname } = useRouter();
     !ISSERVER && window.scrollTo(0, 0);
@@ -64,7 +65,7 @@ export const Layout = ({ children }) => {
                                         return (
                                             <div
                                                 key={idx}
-                                                className={`cont-item ${pathname === d.path && "active"
+                                                className={`cont-item ${pathname.indexOf(d.path) > -1 && "active"
                                                     }`}
                                             >
                                                 <p onClick={() => push(d.path)} className="item">
@@ -77,111 +78,22 @@ export const Layout = ({ children }) => {
                             </nav>
                         </div>
                     </header>
-                    <section className="profile">
-                        <div className="img-profile">
-                            <div className="img"></div>
-                        </div>
-                        <br />
-                        <div className="names-profile">
-                            <span>leonardo sifuente mozombite</span>
-                        </div>
-                        <div className="position-jobs-profile">
-                            <span>Desarollador Web</span>
-                        </div>
-                        <br />
-                        <div
-                            className="profile-section contact-profile"
-                            onClick={() => {
-                                navObj["contacto"] && push(navObj["contacto"].path);
-                            }}
-                        >
-                            <div className="sub-title">
-                                contacto
-                                <span style={{ float: "right" }}>
-                                    <i className="fas fa-external-link-alt"></i>
-                                </span>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div>
-                                        <i className="fab fa-instagram"></i>
-                                        leonardo
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>
-                                        <i className="fab fa-facebook-square"></i>
-                                        leonardo sifuentes
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>
-                                        <i className="fas fa-at"></i>
-                                        leonardosm3.14@gmail.com
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>
-                                        <i className="fab fa-whatsapp"></i>
-                                        (+51) 924 426 169
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <br />
-                        <div
-                            className="profile-section work-experience-profile"
-                            onClick={() => {
-                                navObj["Historial Laboral"] && push(navObj["Historial Laboral"].path);
-                            }}
-                        >
-                            <div className="sub-title">
-                                Experiencia laboral
-                                <span style={{ float: "right" }}>
-                                    <i className="fas fa-external-link-alt"></i>
-                                </span>
-                            </div>
-                            <div className="last-job">
-                                <div className="line-time">
-                                    <div className="title-last-job">ultimo empleo</div>
-                                    <div className="circle-time"></div>
-                                    <div className="name-last-job">
-                                        Desarrollador frontEnd react
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                        <div
-                            className="profile-section education-profile"
-                            onClick={() => {
-                                navObj["Estudios"] && push(navObj["Estudios"].path);
-                            }}
-                        >
-                            <div className="sub-title">
-                                Estudios & certificados
-                                <span style={{ float: "right" }}>
-                                    <i className="fas fa-external-link-alt"></i>
-                                </span>
-                            </div>
-                            <div className="list">
-                                <ul>
-                                    <li>• senati</li>
-                                    <li>• certificado 1</li>
-                                    <li>• certificado 2</li>
-                                    <li>• certificado 2</li>
-                                    <li>• certificado 2</li>
-                                    <li>• certificado 2</li>
-                                    <li>• certificado 2</li>
-                                    <li>• certificado 2</li>
-                                </ul>
-                                <div className="fade"></div>
-                            </div>
-                        </div>
-                    </section>
+
+                    <Profile {...{ dataUser }} />
+
                     <main>{children}</main>
                 </div>
             </div>
         </>
     );
 };
+
+
+// export async function getServerSideProps() {
+//     // Fetch data from external API
+//     // const post = await service.portafolio.getQueryParrilla()
+//     const datasw = await service.profile.getUser()
+//     // Pass data to the page via props
+//     console.log({ datasw });
+//     return { props: { datasw } }
+// }

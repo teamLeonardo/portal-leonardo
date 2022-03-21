@@ -6,3 +6,7 @@ export default () => {
         ruta dinamica {dinamic}
     </div>
 }
+export async function getServerSideProps() {
+
+    return { props: {} }
+}
